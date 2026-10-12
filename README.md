@@ -1,4 +1,5 @@
 <!-- 文件作用：说明混合视觉伺服包的运行流程、检测器选择、采摘阶段、启动方法和坐标约定。 -->
+# 这是ai写的代码，不要拿去用
 # JetArm Hybrid Visual Servoing
 
 This package provides an extensible IBVS/PBVS controller for the JetArm ROS2 stack.
