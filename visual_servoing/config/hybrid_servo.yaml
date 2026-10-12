@@ -1,0 +1,55 @@
+# 文件作用：集中配置检测器、相机、手眼变换、混合伺服、工作空间、采摘偏置及夹爪参数。
+# 修改控制器和状态机配置后需重启节点；模型权重及手眼标定数据需由实际部署环境提供。
+hybrid_visual_servo:
+  ros__parameters:
+    enabled: false
+    detector_backend: topic
+    detector_topic: /yolov8/object_detect
+    detector_box_format: auto
+    rgb_topic: /depth_cam/rgb/image_raw
+    depth_topic: /depth_cam/depth/image_raw
+    camera_info_topic: /depth_cam/rgb/camera_info
+    model_path: /home/ubuntu/ros2_ws/src/visual_servoing/models/strawberry_yolov11.pt
+    target_class: strawberry
+    detector_confidence: 0.50
+    detector_image_size: 640
+    detector_device: ""
+    depth_scale_m_per_unit: 0.001
+    depth_timeout_s: 0.50
+    camera_role: eye_in_hand
+    ee_from_camera: [0.0, 0.0, 1.0, -0.101, -1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.045, 0.0, 0.0, 0.0, 1.0]
+    servo_mode: hybrid
+    pbvs_gain: 1.2
+    ibvs_gain: 0.8
+    depth_gain: 0.6
+    desired_depth_m: 0.18
+    max_speed_mps: 0.04
+    control_period_s: 0.10
+    hybrid_switch_distance_m: 0.08
+    ibvs_target_pixel_mode: center
+    ibvs_target_pixel: [320.0, 240.0]
+    max_step_m: 0.006
+    target_timeout_s: 0.50
+    minimum_confidence: 0.50
+    pitch_deg: -90.0
+    pitch_range_deg: [-100.0, -80.0]
+    ik_resolution_deg: 1.0
+    ik_duration_s: 0.10
+    arm_command_duration_s: 0.10
+    control_rate_hz: 10.0
+    workspace_min_m: [0.05, -0.25, 0.02]
+    workspace_max_m: [0.35, 0.25, 0.35]
+    gripper_id: 10
+    gripper_open_pulse: 200
+    gripper_close_pulse: 600
+    pick_pregrasp_offset_world: [0.0, 0.0, 0.05]
+    pick_grasp_offset_world: [0.0, 0.0, 0.015]
+    pick_lift_offset_world: [0.0, 0.0, 0.10]
+    pick_position_tolerance_m: 0.012
+    pick_pregrasp_tolerance_m: 0.018
+    pick_acquisition_timeout_s: 20.0
+    pick_approach_timeout_s: 20.0
+    pick_grasp_settle_s: 0.8
+    pick_lift_timeout_s: 8.0
+    pick_max_target_jump_m: 0.06
+    pick_target_filter_alpha: 0.35
