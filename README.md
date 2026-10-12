@@ -95,3 +95,43 @@ P_world = T_world_ee * T_ee_camera * P_camera
 ```
 
 Verify this convention with a known point before enabling motion on hardware.
+
+## Chessboard hand-eye calibration
+
+The package includes an eye-in-hand calibration node for an A3 chessboard
+printed at 100% scale. Use 9 x 13 complete squares, each 30 mm, which gives
+OpenCV an 8 x 12 inner-corner pattern. Mount the board rigidly in front of the
+arm, keep its printed orientation fixed, and make sure the entire pattern is
+visible in every accepted image.
+
+Start the camera, arm driver, and kinematics service first, then run:
+
+```bash
+ros2 launch visual_servoing hand_eye_calibration.launch.py
+```
+
+The node provides `capture`, `solve`, `start_auto`, `stop`, and `reset` Trigger
+services under `/hand_eye_calibration`. For manual collection, move the arm to
+a distinct pose, wait until it stops, and call `capture`; collect at least 12
+valid samples, preferably 20 or more. Change both position and orientation.
+Translations alone or repeated images at one pose do not constrain hand-eye
+calibration reliably.
+
+`start_auto` executes the editable `auto_pose_list` through the existing
+position-plus-pitch IK service. The example coordinates are not validated for
+your board placement or hardware. Check every target in simulation and confirm
+the board remains visible before using automatic motion on the real arm. The
+driver cannot command a fully specified 6D pose, so manual capture is the
+fallback when its IK-selected orientations do not provide enough rotation
+diversity.
+
+The node writes a separate `hand_eye_result.yaml` and sample images. It does
+not edit the legacy `transform.yaml`. Copy `ee_from_camera` into the visual
+servoing configuration after checking the reported quality values. Keep legacy
+`corners`, `extristric`, `plane`, and `white_area_pose_world` unchanged; those
+keys describe the older fixed-work-plane pipeline, not the hand-eye transform.
+
+The board-to-camera poses from a symmetric chessboard can have a 180-degree
+ordering ambiguity. Keep the board upright and its printed orientation
+unchanged; reject a sample if detected corner order visibly flips. For larger
+orientation changes, an asymmetric ChArUco or AprilGrid target is more robust.
