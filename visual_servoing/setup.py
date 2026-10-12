@@ -29,6 +29,7 @@ setup(
     entry_points={
         "console_scripts": [
             "hybrid_visual_servo = visual_servoing.ros_node:main",
+            "hand_eye_calibration = visual_servoing.hand_eye_calibration:main",
         ],
     },
 )

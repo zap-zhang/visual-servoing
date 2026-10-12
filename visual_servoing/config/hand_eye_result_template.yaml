@@ -1,0 +1,41 @@
+# 文件作用：手眼标定节点输出文件的结构模板。
+# 数值均为占位值，不能直接用于机械臂运动；应使用 Linux 上实际生成的结果。
+schema_version: 1
+calibration_type: eye_in_hand
+description: A3 chessboard, 9x13 complete squares, 30 mm square size
+board:
+  paper: A3
+  squares_x: 9
+  squares_y: 13
+  inner_corners_x: 8
+  inner_corners_y: 12
+  square_size_m: 0.03
+frames:
+  base_frame: world
+  ee_frame: kinematics_get_current_pose
+  camera_frame: rgb_optical_frame
+  board_frame: chessboard
+  convention: T_world_ee * T_ee_camera * T_camera_board
+hand_eye:
+  method: TSAI
+  T_ee_camera:
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 1.0]
+  T_camera_ee:
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 1.0]
+  T_world_board:
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 0.0]
+  - [0.0, 0.0, 0.0, 1.0]
+ee_from_camera: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+quality:
+  sample_count: 0
+  reprojection_rms_px: 0.0
+  board_translation_rms_m: 0.0
+  board_rotation_rms_deg: 0.0
